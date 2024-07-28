@@ -92,7 +92,7 @@ fn display_with_url(url: &str, links: impl IntoIterator<Item: Display>) {
 }
 
 fn read_input() -> io::Result<String> {
-    let mut text = String::new();
-    io::stdin().lock().read_to_string(&mut text)?;
-    Ok(text)
+    let mut buf = Vec::new();
+    io::stdin().lock().read_to_end(&mut buf)?;
+    Ok(String::from_utf8_lossy(&buf).into())
 }
