@@ -1,6 +1,5 @@
 use core::fmt;
 use std::{
-    fmt::Display,
     io::{self, Read},
     process,
 };
@@ -79,15 +78,17 @@ fn run(args: &Args) -> Result<(), Error> {
     Ok(())
 }
 
-fn display(links: impl IntoIterator<Item: Display>) {
+fn display(links: impl IntoIterator<Item: AsRef<str>>) {
     for link in links {
-        println!("{link}");
+        println!("{}", link.as_ref());
     }
 }
 
-fn display_with_url(url: &str, links: impl IntoIterator<Item: Display>) {
+fn display_with_url(url: &str, links: impl IntoIterator<Item: AsRef<str>>) {
+    let url = url.trim_end_matches('/');
     for link in links {
-        println!("{url}{link}");
+        let link = link.as_ref().trim_start_matches('/');
+        println!("{url}/{link}");
     }
 }
 
